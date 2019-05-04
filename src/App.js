@@ -1,27 +1,32 @@
-import React from 'react';
+import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <span>テスト</span>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
+import GoogleMapReact from 'google-map-react';
+
+const key = 'your keys';
+
+class App extends Component {
+  static defaultProps = {
+    center: {
+      lat: 35.6888174,
+      lng: 139.7007254
+    },
+    zoom: 17
+  };
+
+  render() {
+    return (
+      <div style={{height: '100vh', width: '100%'}}>
+        <GoogleMapReact
+          bootstrapURLKeys={{ key }}
+          defaultCenter={this.props.center}
+          defaultZoom={this.props.zoom}
         >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+        </GoogleMapReact>
+      </div>
+    )
+  }
 }
 
 export default App;
