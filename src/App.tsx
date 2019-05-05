@@ -73,6 +73,21 @@ class App extends React.Component<{}, IAppState> {
 
     this.onChildClick = this.onChildClick.bind(this);
     this.onMarkerHover = this.onMarkerHover.bind(this);
+    this.search = this.search.bind(this);
+  }
+
+  search() {
+    const item: IItem = {
+      lat: this.state.map.center.lat + Math.random()/1000,
+      lng: this.state.map.center.lng + Math.random()/1000,
+      name: 'hotel'+(this.state.itemList.length+1),
+      cnt: 0
+    };
+    let itemList = this.state.itemList;
+    itemList.push(item);
+    this.setState({
+      itemList
+    });
   }
 
   onChildClick(key: any, childProps: any) {
@@ -102,11 +117,12 @@ class App extends React.Component<{}, IAppState> {
           onMarkerHover={this.onMarkerHover}
         />
         <ul>
-          {this.state.itemList.map((item) =>
-            <li>{item.name}[{item.cnt}]</li>
+          {this.state.itemList.map((item, index) =>
+            <li key={index}>{item.name}[{item.cnt}]</li>
           )}
         </ul>
         {this.state.hoverIndex>=0? <ItemPopup {...this.state.itemList[this.state.hoverIndex]} />:null}
+        <button onClick={this.search}>追加</button>
       </div>
     );
   }
