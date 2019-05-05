@@ -4,7 +4,7 @@ import GoogleMapReact from 'google-map-react'
 class Marker extends React.Component {
   render() {
     return (
-      <div><span style={{backgroundColor: 'white'}}>test</span></div>
+      <div><span>test marker</span></div>
     )
   }
 }
@@ -12,9 +12,7 @@ class Marker extends React.Component {
 const MarkerDesc = {
   size: {width: 62, height: 60},
   origin: {x: 15 / 62, y: 1},
-  withText: true,
-  // image: require('icons/map_icons/map_icon_text_red.svg')
-  // imageClass: 'map_icon_text_red'
+  withText: true
 }
 
 interface IGoogleMapBlockProps {
@@ -24,11 +22,32 @@ interface IGoogleMapBlockProps {
   markers?: any[];
   markerDesc?: any;
   Marker?: any;
+
+  onChildClick?: (key: any, childProps: any) => void
+  onMarkerHover?: (key: any, childProps: any) => void
 }
 
 const DEFAULT_ZOOM = 17;
 
 class GoogleMapBlock extends React.Component<IGoogleMapBlockProps> {
+  _onChildClick = (key: any, childProps: any) => {
+    if (this.props.onChildClick) {
+      this.props.onChildClick(key, childProps);
+    }
+  }
+
+  _onChildMouseEnter = (key: any, childProps: any) => {
+    if (this.props.onMarkerHover) {
+      this.props.onMarkerHover(key, childProps);
+    }
+  }
+
+  _onChildMouseLeave = () => {
+    if (this.props.onMarkerHover) {
+      this.props.onMarkerHover(-1, {});
+    }
+  }
+
   render() {
     const Markers = this.props.markers &&
       this.props.markers.map((marker, index) =>
@@ -42,15 +61,18 @@ class GoogleMapBlock extends React.Component<IGoogleMapBlockProps> {
         )
       );
     return (
-      <div style={{height: '500px', width: '500px'}}>
+      <React.Fragment>
         <GoogleMapReact
           bootstrapURLKeys={{key: this.props.apikey}}
           defaultCenter={this.props.center}
           defaultZoom={this.props.zoom || DEFAULT_ZOOM}
+          onChildClick={this._onChildClick}
+          onChildMouseEnter={this._onChildMouseEnter}
+          onChildMouseLeave={this._onChildMouseLeave}
         >
           {Markers}
         </GoogleMapReact>
-      </div>
+      </React.Fragment>
     );
   }
 }
