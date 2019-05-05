@@ -9,6 +9,7 @@
     "@types/react": "16.8.16",
     "@types/react-dom": "16.8.4",
     "google-map-react": "^1.1.4",
+    "google-map-react-ts": "github:takushi-m/google-map-react-ts",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
     "react-scripts": "3.0.0",

@@ -1,7 +1,7 @@
 import React from 'react';
 import './App.css';
 
-import GoogleMapBlock from './google-map-block'
+import GoogleMapBlock from 'google-map-react-ts'
 const GOOGLE_MAPS_API_KEY = 'your key'
 
 
