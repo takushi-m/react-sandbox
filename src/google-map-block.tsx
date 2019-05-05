@@ -52,11 +52,11 @@ class GoogleMapBlock extends React.Component<IGoogleMapBlockProps> {
     const Markers = this.props.markers &&
       this.props.markers.map((marker, index) =>
         React.createElement(
-          this.props.Marker || Marker,
+          marker.Marker || this.props.Marker || Marker,
           {
             key: index,
             ...marker,
-            ...this.props.markerDesc || MarkerDesc
+            ...marker.markerDesc || this.props.markerDesc || MarkerDesc
           }
         )
       );

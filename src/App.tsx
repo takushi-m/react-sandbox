@@ -4,11 +4,17 @@ import './App.css';
 import GoogleMapBlock from './google-map-block'
 const GOOGLE_MAPS_API_KEY = 'your key'
 
-interface IMyMarkerProps {
+
+interface IItem {
+  lat: number;
+  lng: number;
   name: string;
+  cnt: number;
+  Marker?: any;
+  markerDesc?: any;
 }
 
-class MyMarker extends React.Component<IMyMarkerProps> {
+class MyMarker extends React.Component<IItem> {
   render() {
     return (
       <div><span>{this.props.name}</span></div>
@@ -16,23 +22,26 @@ class MyMarker extends React.Component<IMyMarkerProps> {
   }
 }
 
-interface IItemPopup {
-  name: string;
+class MyMarker2 extends React.Component<IItem> {
+  render() {
+    const style = {
+      margin: '3px',
+      fontSize: '20px',
+      backgroundColor: 'black',
+      color: 'white'
+    }
+    return (
+      <div><span style={style}>{this.props.name}</span></div>
+    )
+  }
 }
 
-class ItemPopup extends React.Component<IItemPopup> {
+class ItemPopup extends React.Component<IItem> {
   render() {
     return (
       <p style={{fontWeight: 'bold', fontSize: '20px'}}>{this.props.name}</p>
     )
   }
-}
-
-interface IItem {
-  lat: number;
-  lng: number;
-  name: string;
-  cnt: number;
 }
 
 interface IAppState {
@@ -56,8 +65,8 @@ class App extends React.Component<{}, IAppState> {
         zoom: 17
       },
       itemList: [
-        {lat: 35.689913, lng:139.70182, name: 'hotel1', cnt: 0},
-        {lat: 35.689737, lng:139.70039, name: 'hotel2', cnt: 0}
+        {lat: 35.689913, lng:139.70182, name: 'hotel1', cnt: 0, Marker: MyMarker2},
+        {lat: 35.689737, lng:139.70039, name: 'hotel2', cnt: 0, markerDesc: {size: {width: 150, height: 150}}}
       ],
       hoverIndex: -1
     };
@@ -75,7 +84,9 @@ class App extends React.Component<{}, IAppState> {
   }
 
   onMarkerHover(key: any, childProps: any) {
-    this.setState({hoverIndex: key});
+    this.setState({
+      hoverIndex: key
+    });
   }
 
   render() {
@@ -95,7 +106,7 @@ class App extends React.Component<{}, IAppState> {
             <li>{item.name}[{item.cnt}]</li>
           )}
         </ul>
-        {this.state.hoverIndex>=0? <ItemPopup name={this.state.itemList[this.state.hoverIndex].name} />:null}
+        {this.state.hoverIndex>=0? <ItemPopup {...this.state.itemList[this.state.hoverIndex]} />:null}
       </div>
     );
   }
